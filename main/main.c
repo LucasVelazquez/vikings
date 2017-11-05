@@ -1,11 +1,6 @@
-#include <termios.h>
-#include <unistd.h>
 #include <stdio.h>
-
-
-const int MAX_MAP_X = 10;
-const int MAX_MAP_Y = 10;
-const int BEGIN_CANVAS_Y = 4;
+#include <windows.h>
+#include <conio.h>
 
 const int UP 	= 119;
 const int DOWN  = 115;
@@ -13,9 +8,7 @@ const int LEFT  = 97;
 const int RIGHT = 100;
 
 void gotoxy(int x, int y);
-int transform_position(int position);
-int getch(void);
-
+void hideCursor();
 /*
 Referencias
 
@@ -26,94 +19,178 @@ s = 115
 
 escape = 27
 ' '    = 32
+
+
+La pantalla de console empieza a contar de 0
+
+
 */
 
 
 int main()
 {
+	//mapa [arreglos][cantidad_de_elementos]
 
-	char map[11][11] = 
-{{'o','o','o','o','o','o','o','o','o','o'},
- {'o',' ',' ',' ',' ',' ',' ',' ',' ','o'},
- {'o',' ',' ',' ',' ',' ',' ',' ',' ','o'},
- {'o',' ',' ',' ',' ',' ',' ',' ',' ','o'},
- {'o',' ',' ',' ',' ',' ',' ',' ',' ','o'},
- {'o',' ',' ',' ',' ',' ',' ',' ',' ','o'},
- {'o',' ',' ',' ',' ',' ',' ',' ',' ','o'},
- {'o',' ',' ',' ',' ',' ',' ',' ',' ','o'},
- {'o',' ',' ',' ',' ',' ',' ',' ',' ','o'},
- {'o','o','o','o','o','o','o','o','o','o'}};
+	//Para navegar en el sprite se usa [filas][columnas]
+	//Para navegar en la pantalla se usa [x][y]
 
-	printf("\n\n\n");
+	int max_rows_map = 15;
+	int max_columns_map = 55;
+
+	//Sprites
+	char testLevel[15][55] = 
+	{
+		{'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
+	};
+
+	//Configuración de mapas
+	int position_map_draw_x = 3;
+	int position_map_draw_y = 2;
+
+ 	//Configuración personaje
+
+	char character_sprite = 'o';
+
+	//Posición en el sprite donde aparecerá el personaje
+	int character_sprite_pos_row = 2;
+	int character_sprite_pos_col = 2;
+
+	//Posición en la consola donde aparecerá el personaje (debe coincidir con el equivalente a la posición en el sprite)
+	
+	//(Posición de dibujado del mapa + dimesión de bloque + posición del jugador equivalente)
+	int character_console_pos_x = (position_map_draw_x + 1 + 2);
+	int character_console_pos_y = (position_map_draw_y + 1 + 2);
+
+	//Inicio de dibujo (borrar pantalla y setear cursor)
+
+	system("cls");
+
+	gotoxy(0, 1);
+	printf("-------------------------------<< Nivel de prueba >>--------------------------------");
+
+	gotoxy(position_map_draw_x, position_map_draw_y);
+
+	int initial_value_draw_x = position_map_draw_x;
 
 	//Pintar mapa
-	for(int i = 0; i < MAX_MAP_X; i++)
+	for(int i = 0; i < max_rows_map; ++i)
 	{
-		for(int j = 0; j < MAX_MAP_Y; j++)
+		++position_map_draw_y;
+		for(int j = 0; j < max_columns_map; ++j)
 		{
-			printf("%c", map[i][j]);
+			++position_map_draw_x;
+			gotoxy(position_map_draw_x, position_map_draw_y);
+			printf("%c", testLevel[i][j]);
 		}
-		
-		printf("\n");
+		//printf("\n");
+		position_map_draw_x = initial_value_draw_x;
 	}
 
-	//Dibujar personaje
+	//Dibujar personaje	
 	
-	int character_pos_x = 5;
-	int character_pos_y = 5;	
-	
-	gotoxy(transform_position(character_pos_x),character_pos_y);
-	printf("%c", 'x');
-	
+	gotoxy(character_console_pos_x, character_console_pos_y);
+	printf("%c", character_sprite);
+
+	hideCursor();
 
 	//Loop del juego
 	int keyPressed;
 
 	do
 	{
-	 keyPressed = getch();
-	 
-	 if(keyPressed == UP && map[character_pos_x][character_pos_y - 1] != ' ')
-	 {
-	 	map[character_pos_x][character_pos_y - 1] = map[character_pos_x][character_pos_y];
-	 	map[character_pos_x][character_pos_y] = ' '; 
-	 }
-	 //Seguir con los demás casos
-	 
+		keyPressed = getch();
+
+		if(keyPressed == UP && testLevel[character_sprite_pos_row - 1][character_sprite_pos_col] == 32)
+		{
+			gotoxy(character_console_pos_x, character_console_pos_y);
+			printf(" ");
+			gotoxy(character_console_pos_x, character_console_pos_y - 1);
+			printf("%c", character_sprite);
+			--character_console_pos_y;
+			--character_sprite_pos_row;
+		}
+
+		else if(keyPressed == LEFT && testLevel[character_sprite_pos_row][character_sprite_pos_col - 1] == 32)
+		{
+			gotoxy(character_console_pos_x, character_console_pos_y);
+			printf(" ");
+			gotoxy(character_console_pos_x - 1, character_console_pos_y);
+			printf("%c", character_sprite);
+			--character_console_pos_x;
+			--character_sprite_pos_col;
+		}
+
+		else if(keyPressed == RIGHT && testLevel[character_sprite_pos_row][character_sprite_pos_col + 1] == 32)
+		{
+			gotoxy(character_console_pos_x, character_console_pos_y);
+			printf(" ");
+			gotoxy(character_console_pos_x + 1, character_console_pos_y);
+			printf("%c", character_sprite);
+			++character_console_pos_x;
+			++character_sprite_pos_col;
+		}
+
+		else if(keyPressed == DOWN && testLevel[character_sprite_pos_row + 1][character_sprite_pos_col] == 32)
+		{
+			gotoxy(character_console_pos_x, character_console_pos_y);
+			printf(" ");
+			gotoxy(character_console_pos_x, character_console_pos_y + 1);
+			printf("%c", character_sprite);
+			++character_console_pos_y;
+			++character_sprite_pos_row;
+		}
+
+		hideCursor();
+
+		//Para probar posición de jugador
+	/*	gotoxy(0, 20);
+		printf("console: x = %d, y = %d",character_console_pos_x,character_console_pos_y);
+		gotoxy(0, 23);
+		printf("sprite: row = %d, col = %d",character_sprite_pos_row,character_sprite_pos_col);
+	*/
 	}	
 	while(keyPressed != 27);	
 	
 
 
-
-
 	//Fin aplicación
-	gotoxy(0, transform_position(20));
 	printf("\n\n\n");
+
 	return 0;
 }
 
 void gotoxy(int x, int y)
 {
-	printf("\033[%d;%df", x, y); 
-	fflush(stdout);
+	HANDLE handle;
+	handle = GetStdHandle(STD_OUTPUT_HANDLE);
+
+	COORD coord;
+
+	coord.X = x;
+	coord.Y = y;
+
+	SetConsoleCursorPosition(handle, coord);
 }
 
-int transform_position(int position)
+void hideCursor()
 {
-	return position+BEGIN_CANVAS_Y;
+	gotoxy(0, 20);
 }
 
-int getch(void)
-{
-    struct termios oldattr, newattr;
-    int ch;
-    tcgetattr( STDIN_FILENO, &oldattr );
-    newattr = oldattr;
-    newattr.c_lflag &= ~( ICANON | ECHO );
-    tcsetattr( STDIN_FILENO, TCSANOW, &newattr );
-    ch = getchar();
-    tcsetattr( STDIN_FILENO, TCSANOW, &oldattr );
-    return ch;
-}
+
+
 
