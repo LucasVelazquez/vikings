@@ -9,6 +9,8 @@ const int RIGHT = 100;
 
 void gotoxy(int x, int y);
 void hideCursor();
+void drawCharacterMovement(int actualY, int actualX, int newX, int newY, char sprite);
+
 /*
 Referencias
 
@@ -116,40 +118,28 @@ int main()
 
 		if(keyPressed == UP && testLevel[character_sprite_pos_row - 1][character_sprite_pos_col] == 32)
 		{
-			gotoxy(character_console_pos_x, character_console_pos_y);
-			printf(" ");
-			gotoxy(character_console_pos_x, character_console_pos_y - 1);
-			printf("%c", character_sprite);
+			drawCharacterMovement(character_console_pos_x, character_console_pos_y, character_console_pos_x, (character_console_pos_y - 1), character_sprite);
 			--character_console_pos_y;
 			--character_sprite_pos_row;
 		}
 
 		else if(keyPressed == LEFT && testLevel[character_sprite_pos_row][character_sprite_pos_col - 1] == 32)
 		{
-			gotoxy(character_console_pos_x, character_console_pos_y);
-			printf(" ");
-			gotoxy(character_console_pos_x - 1, character_console_pos_y);
-			printf("%c", character_sprite);
+			drawCharacterMovement(character_console_pos_x, character_console_pos_y, (character_console_pos_x - 1), character_console_pos_y, character_sprite);
 			--character_console_pos_x;
 			--character_sprite_pos_col;
 		}
 
 		else if(keyPressed == RIGHT && testLevel[character_sprite_pos_row][character_sprite_pos_col + 1] == 32)
 		{
-			gotoxy(character_console_pos_x, character_console_pos_y);
-			printf(" ");
-			gotoxy(character_console_pos_x + 1, character_console_pos_y);
-			printf("%c", character_sprite);
+			drawCharacterMovement(character_console_pos_x, character_console_pos_y, (character_console_pos_x + 1), character_console_pos_y, character_sprite);
 			++character_console_pos_x;
 			++character_sprite_pos_col;
 		}
 
 		else if(keyPressed == DOWN && testLevel[character_sprite_pos_row + 1][character_sprite_pos_col] == 32)
 		{
-			gotoxy(character_console_pos_x, character_console_pos_y);
-			printf(" ");
-			gotoxy(character_console_pos_x, character_console_pos_y + 1);
-			printf("%c", character_sprite);
+			drawCharacterMovement(character_console_pos_x, character_console_pos_y,character_console_pos_x, (character_console_pos_y + 1), character_sprite);
 			++character_console_pos_y;
 			++character_sprite_pos_row;
 		}
@@ -186,11 +176,15 @@ void gotoxy(int x, int y)
 	SetConsoleCursorPosition(handle, coord);
 }
 
-void hideCursor()
+void hideCursor() {gotoxy(0, 20);}
+ 
+void drawCharacterMovement(int actualY, int actualX, int newX, int newY, char sprite)
 {
-	gotoxy(0, 20);
+	gotoxy(actualY, actualX);
+	printf(" ");
+	gotoxy(newX, newY);
+	printf("%c", sprite);
 }
-
 
 
 
