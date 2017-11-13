@@ -7,9 +7,18 @@ const int DOWN  = 115;
 const int LEFT  = 97;
 const int RIGHT = 100;
 
+//Para navegar en el sprite se usa [filas][columnas]
+//Para navegar en la pantalla se usa [x][y]
+const int max_rows_map = 15;
+const int max_columns_map = 35;
+
+const int max_rows_inventory = 15;
+const int max_columns_inventory = 20;
+
+
 void gotoxy(int x, int y);
 void hideCursor();
-void drawCharacterMovement(int actualY, int actualX, int newX, int newY, char sprite);
+void drawCharacterMovement(int actual_y, int actual_x, int new_x, int new_y, char sprite);
 
 /*
 Referencias
@@ -33,35 +42,53 @@ int main()
 {
 	//mapa [arreglos][cantidad_de_elementos]
 
-	//Para navegar en el sprite se usa [filas][columnas]
-	//Para navegar en la pantalla se usa [x][y]
-
-	int max_rows_map = 15;
-	int max_columns_map = 55;
-
 	//Sprites
-	char testLevel[15][55] = 
+	char test_level[15][35] = 
 	{
-		{'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
+		{'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
+		{'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
 	};
 
-	//Configuración de mapas
 	int position_map_draw_x = 3;
 	int position_map_draw_y = 2;
+
+
+	char inventory_menu[15][20] =
+	{
+		{'-','-','-','-','-','-','-','B','o','l','s','a','-','-','-','-','-','-','-'},
+		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
+		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
+		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
+		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
+		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
+		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
+		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
+		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
+		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
+		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
+		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
+		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
+		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
+		{'-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-'}
+
+	};
+
+	int inventory_map_draw_x =40;
+	int inventory_map_draw_y =2;
+
 
  	//Configuración personaje
 
@@ -82,13 +109,12 @@ int main()
 	system("cls");
 
 	gotoxy(0, 1);
-	printf("-------------------------------<< Nivel de prueba >>--------------------------------");
+	printf("-------------------------------<< Nivel de prueba >>-------------------------");
 
+	//Dibujar mapa
 	gotoxy(position_map_draw_x, position_map_draw_y);
-
 	int initial_value_draw_x = position_map_draw_x;
 
-	//Pintar mapa
 	for(int i = 0; i < max_rows_map; ++i)
 	{
 		++position_map_draw_y;
@@ -96,10 +122,27 @@ int main()
 		{
 			++position_map_draw_x;
 			gotoxy(position_map_draw_x, position_map_draw_y);
-			printf("%c", testLevel[i][j]);
+			printf("%c", test_level[i][j]);
 		}
 		//printf("\n");
 		position_map_draw_x = initial_value_draw_x;
+	}
+
+	//Dibujar inventario
+	gotoxy(inventory_map_draw_x, inventory_map_draw_y);
+	initial_value_draw_x = inventory_map_draw_x;
+
+	for(int i = 0; i < max_rows_inventory; ++i)
+	{
+		++inventory_map_draw_y;
+		for(int j = 0; j < max_columns_inventory; ++j)
+		{
+			++inventory_map_draw_x;
+			gotoxy(inventory_map_draw_x, inventory_map_draw_y);
+			printf("%c", inventory_menu[i][j]);
+		}
+		//printf("\n");
+		inventory_map_draw_x = initial_value_draw_x;
 	}
 
 	//Dibujar personaje	
@@ -110,34 +153,34 @@ int main()
 	hideCursor();
 
 	//Loop del juego
-	int keyPressed;
+	int key_pressed;
 
 	do
 	{
-		keyPressed = getch();
+		key_pressed = getch();
 
-		if(keyPressed == UP && testLevel[character_sprite_pos_row - 1][character_sprite_pos_col] == 32)
+		if(key_pressed == UP && test_level[character_sprite_pos_row - 1][character_sprite_pos_col] == 32)
 		{
 			drawCharacterMovement(character_console_pos_x, character_console_pos_y, character_console_pos_x, (character_console_pos_y - 1), character_sprite);
 			--character_console_pos_y;
 			--character_sprite_pos_row;
 		}
 
-		else if(keyPressed == LEFT && testLevel[character_sprite_pos_row][character_sprite_pos_col - 1] == 32)
+		else if(key_pressed == LEFT && test_level[character_sprite_pos_row][character_sprite_pos_col - 1] == 32)
 		{
 			drawCharacterMovement(character_console_pos_x, character_console_pos_y, (character_console_pos_x - 1), character_console_pos_y, character_sprite);
 			--character_console_pos_x;
 			--character_sprite_pos_col;
 		}
 
-		else if(keyPressed == RIGHT && testLevel[character_sprite_pos_row][character_sprite_pos_col + 1] == 32)
+		else if(key_pressed == RIGHT && test_level[character_sprite_pos_row][character_sprite_pos_col + 1] == 32)
 		{
 			drawCharacterMovement(character_console_pos_x, character_console_pos_y, (character_console_pos_x + 1), character_console_pos_y, character_sprite);
 			++character_console_pos_x;
 			++character_sprite_pos_col;
 		}
 
-		else if(keyPressed == DOWN && testLevel[character_sprite_pos_row + 1][character_sprite_pos_col] == 32)
+		else if(key_pressed == DOWN && test_level[character_sprite_pos_row + 1][character_sprite_pos_col] == 32)
 		{
 			drawCharacterMovement(character_console_pos_x, character_console_pos_y,character_console_pos_x, (character_console_pos_y + 1), character_sprite);
 			++character_console_pos_y;
@@ -153,7 +196,7 @@ int main()
 		printf("sprite: row = %d, col = %d",character_sprite_pos_row,character_sprite_pos_col);
 	*/
 	}	
-	while(keyPressed != 27);	
+	while(key_pressed != 27);	
 	
 
 
@@ -177,14 +220,21 @@ void gotoxy(int x, int y)
 }
 
 void hideCursor() {gotoxy(0, 20);}
- 
-void drawCharacterMovement(int actualY, int actualX, int newX, int newY, char sprite)
+
+void drawCharacterMovement(int actual_y, int actual_x, int new_x, int new_y, char sprite)
 {
-	gotoxy(actualY, actualX);
+	gotoxy(actual_y, actual_x);
 	printf(" ");
-	gotoxy(newX, newY);
+	gotoxy(new_x, new_y);
 	printf("%c", sprite);
 }
+
+
+//Esta función deberá aceptar una matriz dinámica}
+/*void drawSprite(int maxRows, int maxColumns, char[][] sprite)
+{
+
+}*/
 
 
 
