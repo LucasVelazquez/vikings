@@ -1,0 +1,8 @@
+#define MAX_ROWS_MAP 	20
+#define MAX_COLUMNS_MAP 45
+
+#define MAX_ROWS_INVENTORY 		20
+#define MAX_COLUMNS_INVENTORY 	20
+
+#define MAX_ROWS_TALK_BOX  		9
+#define MAX_COLUMNS_TALK_BOX 	70
