@@ -47,7 +47,7 @@ int main()
 	//mapa [arreglos][cantidad_de_elementos]
 
 	//Sprites
-	char test_level[MAX_ROWS_MAP][MAX_COLUMNS_MAP] = 
+/*	char test_level[MAX_ROWS_MAP][MAX_COLUMNS_MAP] = 
 	{
 		{'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
 		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
@@ -71,8 +71,8 @@ int main()
 		{'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
 	};
 
-	int position_map_draw_x = 3;
-	int position_map_draw_y = 2;
+	//int position_map_draw_x = 3;
+	//int position_map_draw_y = 2;
 
 
 	char inventory_menu[MAX_ROWS_INVENTORY][MAX_COLUMNS_INVENTORY] =
@@ -100,8 +100,8 @@ int main()
 
 	};
 
-	int inventory_map_draw_x = 48;
-	int inventory_map_draw_y = 2;
+	//int inventory_map_draw_x = 48;
+	//int inventory_map_draw_y = 2;
 
 
 	char talk_box[MAX_ROWS_TALK_BOX][MAX_COLUMNS_TALK_BOX] = 
@@ -115,10 +115,10 @@ int main()
 		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
 		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
 		{'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'}
-	};
+	};*/
 
-	int talk_box_map_draw_x =3;
-	int talk_box_map_draw_y =22;
+	//int talk_box_map_draw_x =3;
+	//int talk_box_map_draw_y =22;
 
  	//Configuración personaje
 
