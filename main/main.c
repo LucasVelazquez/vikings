@@ -1,144 +1,29 @@
 #include <stdio.h>
-#include <windows.h>
-#include <conio.h>
-#include "/../levels/levels.h"
-
-const int UP 	= 119;
-const int DOWN  = 115;
-const int LEFT  = 97;
-const int RIGHT = 100;
-
-//Para navegar en el sprite se usa [filas][columnas]
-//Para navegar en la pantalla se usa [x][y]
-/*#define MAX_ROWS_MAP 	20
-#define MAX_COLUMNS_MAP 45
-
-#define MAX_ROWS_INVENTORY 		20
-#define MAX_COLUMNS_INVENTORY 	20
-
-#define MAX_ROWS_TALK_BOX  		9
-#define MAX_COLUMNS_TALK_BOX 	70*/
-
-
-void gotoxy(int x, int y);
-void hideCursor();
-void drawCharacterMovement(int actual_y, int actual_x, int new_x, int new_y, char sprite);
-
-/*
-Referencias
-
-a = 97
-d = 100
-w = 119
-s = 115
-
-escape = 27
-' '    = 32
-
-
-La pantalla de console empieza a contar de 0
-
-
-*/
-
+#include "../levels/levels.h"
+#include "../utils/utils.h"
+#include "../structures/character.h"
 
 int main()
 {
-	//mapa [arreglos][cantidad_de_elementos]
-
-	//Sprites
-/*	char test_level[MAX_ROWS_MAP][MAX_COLUMNS_MAP] = 
-	{
-		{'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
-	};
-
-	//int position_map_draw_x = 3;
-	//int position_map_draw_y = 2;
-
-
-	char inventory_menu[MAX_ROWS_INVENTORY][MAX_COLUMNS_INVENTORY] =
-	{
-		{'-','-','-','-','-','-','-','B','o','l','s','a','-','-','-','-','-','-','-'},
-		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
-		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
-		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
-		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
-		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
-		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
-		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
-		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
-		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
-		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
-		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
-		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
-		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
-		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
-		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
-		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
-		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
-		{'|',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','|'},
-		{'-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-','-'}
-
-	};
-
-	//int inventory_map_draw_x = 48;
-	//int inventory_map_draw_y = 2;
-
-
-	char talk_box[MAX_ROWS_TALK_BOX][MAX_COLUMNS_TALK_BOX] = 
-	{
-		{'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
-		{'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'}
-	};*/
-
-	//int talk_box_map_draw_x =3;
-	//int talk_box_map_draw_y =22;
-
  	//Configuración personaje
 
-	char character_sprite = 'o';
+	struct Character player;
 
+	player.sprite = 'o';
 	//Posición en el sprite donde aparecerá el personaje
-	int character_sprite_pos_row = 2;
-	int character_sprite_pos_col = 2;
-
-	//Posición en la consola donde aparecerá el personaje (debe coincidir con el equivalente a la posición en el sprite)
-	
+	player.sprite_pos_row = 2;
+	player.sprite_pos_col = 2;
+	//Posición en la consola donde aparecerá el personaje (debe coincidir con el equivalente a la posición en el sprite)	
 	//(Posición de dibujado del mapa + dimesión de bloque + posición del jugador equivalente)
-	int character_console_pos_x = (position_map_draw_x + 1 + 2);
-	int character_console_pos_y = (position_map_draw_y + 1 + 2);
+	player.console_pos_x = (position_map_draw_x + 1 + 2);
+	player.console_pos_y = (position_map_draw_y + 1 + 2);
+	
+	strcpy(player.name, "Lucas");
 
 	//Inicio de dibujo (borrar pantalla y setear cursor)
-
 	system("cls");
-
 	gotoxy(0, 1);
+	
 	printf("-------------------------------<< Nivel de prueba >>-------------------------");
 
 	//Dibujar mapa
@@ -176,10 +61,6 @@ int main()
 	}
 
 	//Dibujar área de mensajes
-
-//	int talk_box_map_draw_x =3;
-//	int talk_box_map_draw_y =43;
-
 	gotoxy(talk_box_map_draw_x, talk_box_map_draw_y);
 	initial_value_draw_x = talk_box_map_draw_x;
 
@@ -197,9 +78,8 @@ int main()
 	}
 
 	//Dibujar personaje	
-	
-	gotoxy(character_console_pos_x, character_console_pos_y);
-	printf("%c", character_sprite);
+	gotoxy(player.console_pos_x, player.console_pos_y);
+	printf("%c", player.sprite);
 
 	hideCursor();
 
@@ -210,76 +90,43 @@ int main()
 	{
 		key_pressed = getch();
 
-		if(key_pressed == UP && test_level[character_sprite_pos_row - 1][character_sprite_pos_col] == 32)
+		if(key_pressed == UP && test_level[player.sprite_pos_row - 1][player.sprite_pos_col] == 32)
 		{
-			drawCharacterMovement(character_console_pos_x, character_console_pos_y, character_console_pos_x, (character_console_pos_y - 1), character_sprite);
-			--character_console_pos_y;
-			--character_sprite_pos_row;
+			drawCharacterMovement(player.console_pos_x, player.console_pos_y, player.console_pos_x, (player.console_pos_y - 1), player.sprite);
+			--player.console_pos_y;
+			--player.sprite_pos_row;
 		}
 
-		else if(key_pressed == LEFT && test_level[character_sprite_pos_row][character_sprite_pos_col - 1] == 32)
+		else if(key_pressed == LEFT && test_level[player.sprite_pos_row][player.sprite_pos_col - 1] == 32)
 		{
-			drawCharacterMovement(character_console_pos_x, character_console_pos_y, (character_console_pos_x - 1), character_console_pos_y, character_sprite);
-			--character_console_pos_x;
-			--character_sprite_pos_col;
+			drawCharacterMovement(player.console_pos_x, player.console_pos_y, (player.console_pos_x - 1), player.console_pos_y, player.sprite);
+			--player.console_pos_x;
+			--player.sprite_pos_col;
 		}
 
-		else if(key_pressed == RIGHT && test_level[character_sprite_pos_row][character_sprite_pos_col + 1] == 32)
+		else if(key_pressed == RIGHT && test_level[player.sprite_pos_row][player.sprite_pos_col + 1] == 32)
 		{
-			drawCharacterMovement(character_console_pos_x, character_console_pos_y, (character_console_pos_x + 1), character_console_pos_y, character_sprite);
-			++character_console_pos_x;
-			++character_sprite_pos_col;
+			drawCharacterMovement(player.console_pos_x, player.console_pos_y, (player.console_pos_x + 1), player.console_pos_y, player.sprite);
+			++player.console_pos_x;
+			++player.sprite_pos_col;
 		}
 
-		else if(key_pressed == DOWN && test_level[character_sprite_pos_row + 1][character_sprite_pos_col] == 32)
+		else if(key_pressed == DOWN && test_level[player.sprite_pos_row + 1][player.sprite_pos_col] == 32)
 		{
-			drawCharacterMovement(character_console_pos_x, character_console_pos_y,character_console_pos_x, (character_console_pos_y + 1), character_sprite);
-			++character_console_pos_y;
-			++character_sprite_pos_row;
+			drawCharacterMovement(player.console_pos_x, player.console_pos_y,player.console_pos_x, (player.console_pos_y + 1), player.sprite);
+			++player.console_pos_y;
+			++player.sprite_pos_row;
 		}
 
 		hideCursor();
-
-		//Para probar posición de jugador
-	/*	gotoxy(0, 20);
-		printf("console: x = %d, y = %d",character_console_pos_x,character_console_pos_y);
-		gotoxy(0, 23);
-		printf("sprite: row = %d, col = %d",character_sprite_pos_row,character_sprite_pos_col);
-	*/
 	}	
 	while(key_pressed != 27);	
 	
-
-
 	//Fin aplicación
 	printf("\n\n\n");
 
 	return 0;
 }
-
-void gotoxy(int x, int y)
-{
-	HANDLE handle;
-	handle = GetStdHandle(STD_OUTPUT_HANDLE);
-
-	COORD coord;
-
-	coord.X = x;
-	coord.Y = y;
-
-	SetConsoleCursorPosition(handle, coord);
-}
-
-void hideCursor() {gotoxy(0, 20);}
-
-void drawCharacterMovement(int actual_y, int actual_x, int new_x, int new_y, char sprite)
-{
-	gotoxy(actual_y, actual_x);
-	printf(" ");
-	gotoxy(new_x, new_y);
-	printf("%c", sprite);
-}
-
 
 //Esta función deberá aceptar una matriz dinámica}
 /*void drawSprite(int maxRows, int maxColumns, char[][] sprite)
