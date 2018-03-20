@@ -1,6 +1,5 @@
-#include <stdio.h>
-#include "../levels/levels.h"
 #include "../utils/utils.h"
+#include "../levels/levels.h"
 #include "../structures/character.h"
 
 int main()
@@ -18,8 +17,6 @@ int main()
 	player.console_pos_x = (position_map_draw_x + 1 + 2);
 	player.console_pos_y = (position_map_draw_y + 1 + 2);
 	
-	strcpy(player.name, "Lucas");
-
 	//Inicio de dibujo (borrar pantalla y setear cursor)
 	system("cls");
 	gotoxy(0, 1);

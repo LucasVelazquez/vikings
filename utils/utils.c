@@ -39,5 +39,9 @@ escape = 27
 
 La pantalla de console empieza a contar de 0
 
+//compilar
+D:\Lucas\Proyectos\Vikings>
+gcc utils/utils.c levels/levels.c structures/character.c  main/main.c -o test
+
 
 */
