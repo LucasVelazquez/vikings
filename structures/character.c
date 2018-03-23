@@ -1,11 +1,17 @@
 #include "character.h"
-#include "../utils/utils.h"
+//#include "../utils/utils.h"
 
 void drawCharacterMovement(int actual_y, int actual_x, int new_x, int new_y, char sprite)
 {
 	gotoxy(actual_y, actual_x);
 	printf(" ");
 	gotoxy(new_x, new_y);
+	printf("%c", sprite);
+}
+
+void drawCharacter(int console_x, int console_y, char sprite)
+{
+	gotoxy(console_X, console_X);
 	printf("%c", sprite);
 }
 
