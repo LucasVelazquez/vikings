@@ -1,7 +1,7 @@
-#include "levels.h"
-//#include "../utils/utils.h"
+#include "level.h"
+#include "../utils/utils.h"
 
-void drawLevel(int position_map_x , int position_map_y, char[][MAX_COLUMNS_MAP] sprite)
+void drawLevel(int position_map_x , int position_map_y, char sprite[][MAX_COLUMNS_MAP])
 {
 	gotoxy(position_map_x, position_map_y);
 	int initial_value_draw_x = position_map_x;

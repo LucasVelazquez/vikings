@@ -1,5 +1,5 @@
 #include "character.h"
-//#include "../utils/utils.h"
+#include "../utils/utils.h"
 
 void drawCharacterMovement(int actual_y, int actual_x, int new_x, int new_y, char sprite)
 {
@@ -11,7 +11,7 @@ void drawCharacterMovement(int actual_y, int actual_x, int new_x, int new_y, cha
 
 void drawCharacter(int console_x, int console_y, char sprite)
 {
-	gotoxy(console_X, console_X);
+	gotoxy(console_x, console_y);
 	printf("%c", sprite);
 }
 

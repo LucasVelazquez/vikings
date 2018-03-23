@@ -1,5 +1,5 @@
 #include "talk_box.h"
-//#include "../utils/utils.h"
+#include "../utils/utils.h"
 
 char talk_box[MAX_ROWS_TALK_BOX][MAX_COLUMNS_TALK_BOX] = 
 {

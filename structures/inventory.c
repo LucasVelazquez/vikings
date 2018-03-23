@@ -1,5 +1,5 @@
 #include "inventory.h"
-//#include "../utils/utils.h"
+#include "../utils/utils.h"
 
 
 char inventory_menu[MAX_ROWS_INVENTORY][MAX_COLUMNS_INVENTORY] =

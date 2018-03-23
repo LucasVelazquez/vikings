@@ -11,9 +11,14 @@ const int RIGHT;
 
 int main()
 {
-	Struct Level level_0;
-	level_0.sprite =
-	{
+	struct Level level_0;
+
+	//Asignación de memoria para la matriz
+	level_0.sprite = malloc(MAX_ROWS_MAP * sizeof(char*));
+	for(int i = 0; i < MAX_ROWS_MAP; ++i)
+		level_0.sprite[i] = malloc(MAX_COLUMNS_MAP*sizeof(char));
+
+	level_0.sprite ={
 		{'x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x','x'},
 		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
 		{'x',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ',' ','x'},
