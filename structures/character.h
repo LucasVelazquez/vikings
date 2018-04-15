@@ -1,3 +1,4 @@
+
 struct Character
 {
 	char sprite;
@@ -11,5 +12,4 @@ struct Character
 };
 
 
-void drawCharacterMovement(int actual_y, int actual_x, int new_x, int new_y, char sprite);
-void drawCharacter(int console_x, int console_y, char sprite);
+void drawCharacter(int actual_y, int actual_x, int new_x, int new_y, char sprite);

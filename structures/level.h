@@ -3,8 +3,8 @@
 
 struct Level
 {
-	//char sprite[MAX_ROWS_MAP][MAX_COLUMNS_MAP],
-	char ** sprite;
+	char sprite[MAX_ROWS_MAP][MAX_COLUMNS_MAP];
+	//char * sprite;
 	//int position_map_draw_x,
 	int console_pos_x;
 	//int position_map_draw_y,

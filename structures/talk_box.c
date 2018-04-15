@@ -15,7 +15,7 @@ char talk_box[MAX_ROWS_TALK_BOX][MAX_COLUMNS_TALK_BOX] =
 };
 
 int talk_box_map_draw_x =3;
-int talk_box_map_draw_y =22;
+int talk_box_map_draw_y =16;
 
 void drawTalkBox()
 {

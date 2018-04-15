@@ -1,9 +1,5 @@
 #include "utils.h"
 
-const int UP 	= 119;
-const int DOWN  = 115;
-const int LEFT  = 97;
-const int RIGHT = 100;
 
 void gotoxy(int x, int y)
 {
@@ -18,4 +14,4 @@ void gotoxy(int x, int y)
 	SetConsoleCursorPosition(handle, coord);
 }
 
-void hideCursor() {gotoxy(0, 20);}
+void hideCursor() {gotoxy(0, 0);}

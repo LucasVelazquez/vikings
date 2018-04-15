@@ -3,6 +3,7 @@
 
 void drawLevel(int position_map_x , int position_map_y, char sprite[][MAX_COLUMNS_MAP])
 {
+
 	gotoxy(position_map_x, position_map_y);
 	int initial_value_draw_x = position_map_x;
 
