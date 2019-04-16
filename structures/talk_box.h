@@ -7,3 +7,4 @@ int talk_box_map_draw_x;
 int talk_box_map_draw_y;
 
 void drawTalkBox();
+void showText(char text[]);
