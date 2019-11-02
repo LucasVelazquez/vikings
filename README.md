@@ -2,6 +2,8 @@
 
 Juego rpg dibujado con caracteres ASCII.
 
+![](https://media.giphy.com/media/QTxqLac8yDBsABUWAb/giphy.gif)
+
 ## Requisitos para jugar
 
 * Windows.
