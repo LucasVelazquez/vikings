@@ -1,6 +1,6 @@
 # Vikingos
 
-Juego rpg dibujado con caracteres ASCII.
+Juego rpg dibujado con caracteres ASCII. (Aún en desarrollo)
 
 ![](https://media.giphy.com/media/QTxqLac8yDBsABUWAb/giphy.gif)
 
