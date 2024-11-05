@@ -1,6 +1,6 @@
 # Vikingos
 
-Juego rpg dibujado con caracteres ASCII. (Fecha de finalización enero de 2030)
+Juego rpg dibujado con caracteres ASCII. (Fecha de finalización enero de 2030 o capaz nunca)
 
 ![](https://media.giphy.com/media/QTxqLac8yDBsABUWAb/giphy.gif)
 
